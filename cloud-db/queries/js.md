@@ -184,6 +184,22 @@ to get the count without fetching any records, simply set `query.limit = 0`.
 
 ## Relational Queries
 
+This example shows how to query all notes (`Note` record) who has an `account` field reference to a user record `182654c9-d205-43aa-8e74-d465c830087a`.
+
+``` javascript
+
+let query = new skygear.Query(Note);
+query.equalTo('account', new skygear.Reference({
+    id: 'account/182654c9-d205-43aa-8e74-d465c830087a'
+}));
+// '_owner' is an alias for '_owner_id'
+
+skygear.publicDB.query(query).then((r) => {
+    console.log(r);
+});
+
+```
+
 ### Eager Loading
 
 If you have a record that with [reference][doc-data-type-reference] to

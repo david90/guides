@@ -110,9 +110,56 @@ NSPredicate *p =
 let p = SKYRelationPredicate(relation: SKYRelation.following(), keyPath: "_owner")
 ```
 
-### Full-text search (**NOT IMPLEMENTED**)
-
 ### References
+
+This example shows how to query all notes (`Note` record) who has an `account` field reference to a user record `182654c9-d205-43aa-8e74-d465c830087a`.
+
+```objective-c
+
+SKYReference *nameRef = [SKYReference referenceWithRecordID:[SKYRecordID recordIDWith CanonicalString:@"account/182654c9-d205-43aa-8e74-d465c830087a"]];
+
+NSPredicate *accountPredicate = [NSPredicate predicateWithFormat:@"account = %@", nameRef];
+
+SKYQuery *query = [SKYQuery queryWithRecordType:@"Note" predicate: accountPredicate];
+
+
+SKYDatabase *privateDB = [[SKYContainer defaultContainer] privateCloudDatabase];
+[privateDB performQuery:query completionHandler:^(NSArray *results, NSError *error) {
+    if (error) {
+        NSLog(@"error querying notes: %@", error);
+        return;
+    }
+
+    NSLog(@"Received %@ notes.", @(results.count));
+    for (SKYRecord *note in results) {
+        NSLog(@"Got a note: %@", note[@"title"]);
+    }
+}];
+
+```
+
+```swift
+
+let nameRef = SKYReference(recordID: SKYRecordID(canonicalString: "account/182654c9-d205-43aa-8e74-d465c830087a"))
+let accountPredicate = NSPredicate(format: "account = %@", nameRef!)
+
+let query = SKYQuery(recordType: "Note", predicate: accountPredicate)
+
+SKYContainer.default().publicCloudDatabase.perform(query) { (results, error) in
+    if error != nil {
+        print ("error querying notes: \(error)")
+        return
+    }
+    
+    for note in results as! [SKYRecord] {
+        print ("Got a Note  \(note["content"])")
+    }
+}
+
+```
+
+
+### Full-text search (**NOT IMPLEMENTED**)
 
 `SKYKit` query supports filtering records by the reference field of records:
 

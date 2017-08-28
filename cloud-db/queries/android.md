@@ -102,6 +102,32 @@ Besides the operations shown above, the following list out all operations suppor
 
 ## Relational Queries
 
+This example shows how to query all notes (`Note` record) who has an `account` field reference to a user record `182654c9-d205-43aa-8e74-d465c830087a`.
+
+```java
+
+Query noteQuery = new Query("Note").transientInclude("account")
+        .equalTo("account", "182654c9-d205-43aa-8e74-d465c830087a");
+
+Database publicDB = Container.defaultContainer(this).getPublicDatabase();
+
+publicDB.query(noteQuery, new RecordQueryResponseHandler() {
+    @Override
+    public void onQuerySuccess(Record[] records) {
+        Log.i("Record Query", String.format("Successfully got %d records", records.length));
+
+        for (Record record : records){
+            Log.i("Record Query", record.toJson().toString());
+        }
+    }
+
+    @Override
+    public void onQueryError(Error error) {
+        Log.i("Record Query", String.format("Fail with reason:%s", error.getLocalizedMessage()));
+    }
+
+```
+
 ### Eager Loading
 
 Skygear supports eager loading of referenced records when you are querying the
