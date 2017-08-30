@@ -184,15 +184,28 @@ to get the count without fetching any records, simply set `query.limit = 0`.
 
 ## Relational Queries
 
-This example shows how to query all notes (`Note` record) who has an `account` field reference to a user record `182654c9-d205-43aa-8e74-d465c830087a`.
+This example shows how to query all notes (`Note` record) who has an `account` field reference to a user record. In this example, we will query all notes where `account` equals to the current user.
+
 
 ``` javascript
+const Note = skygear.Record.extend('note');
+let query = new skygear.Query(Note);
+query.equalTo('account', new skygear.Reference(skygear.auth.currentUser));
 
+skygear.publicDB.query(query).then((r) => {
+    console.log(r);
+});
+
+```
+
+If you haven't have the corresponding record in hand (in this example, we will use the User record `182654c9-d205-43aa-8e74-d465c830087a`), you can reference with a specify `id` in this way:
+
+``` javascript
+const Note = skygear.Record.extend('note');
 let query = new skygear.Query(Note);
 query.equalTo('account', new skygear.Reference({
-    id: 'account/182654c9-d205-43aa-8e74-d465c830087a'
+    id: 'user/182654c9-d205-43aa-8e74-d465c830087a'
 }));
-// '_owner' is an alias for '_owner_id'
 
 skygear.publicDB.query(query).then((r) => {
     console.log(r);
