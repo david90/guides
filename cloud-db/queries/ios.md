@@ -124,8 +124,8 @@ NSPredicate *accountPredicate = [NSPredicate predicateWithFormat:@"account = %@"
 SKYQuery *query = [SKYQuery queryWithRecordType:@"Note" predicate: accountPredicate];
 
 
-SKYDatabase *privateDB = [[SKYContainer defaultContainer] privateCloudDatabase];
-[privateDB performQuery:query completionHandler:^(NSArray *results, NSError *error) {
+SKYDatabase *publicDB = [[SKYContainer defaultContainer] publicCloudDatabase];
+[publicDB performQuery:query completionHandler:^(NSArray *results, NSError *error) {
     if (error) {
         NSLog(@"error querying notes: %@", error);
         return;
@@ -161,7 +161,7 @@ SKYContainer.default().publicCloudDatabase.perform(query) { (results, error) in
 }
 ```
 
-If you haven't have the corresponding record in hand (in this example, we will use the User record `182654c9-d205-43aa-8e74-d465c830087a`), you can reference with a specify `id` in this way:
+If you haven't have the corresponding record in hand (in this example, we will use the User record `182654c9-d205-43aa-8e74-d465c830087a`), you can reference with a specify `id` without making another query in this way:
 
 ```objective-c
 SKYReference *nameRef = [SKYReference referenceWithRecordID:[SKYRecordID recordIDWithCanonicalString:@"account/182654c9-d205-43aa-8e74-d465c830087a"]];
@@ -171,8 +171,8 @@ NSPredicate *accountPredicate = [NSPredicate predicateWithFormat:@"account = %@"
 SKYQuery *query = [SKYQuery queryWithRecordType:@"Note" predicate: accountPredicate];
 
 
-SKYDatabase *privateDB = [[SKYContainer defaultContainer] privateCloudDatabase];
-[privateDB performQuery:query completionHandler:^(NSArray *results, NSError *error) {
+SKYDatabase *publicDB = [[SKYContainer defaultContainer] publicCloudDatabase];
+[publicDB performQuery:query completionHandler:^(NSArray *results, NSError *error) {
     if (error) {
         NSLog(@"error querying notes: %@", error);
         return;

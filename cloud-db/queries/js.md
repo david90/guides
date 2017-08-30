@@ -198,7 +198,7 @@ skygear.publicDB.query(query).then((r) => {
 
 ```
 
-If you haven't have the corresponding record in hand (in this example, we will use the User record `182654c9-d205-43aa-8e74-d465c830087a`), you can reference with a specify `id` in this way:
+If you haven't have the corresponding record in hand (in this example, we will use the User record `182654c9-d205-43aa-8e74-d465c830087a`), you can reference with a specify `id` without making another query in this way:
 
 ``` javascript
 const Note = skygear.Record.extend('note');
