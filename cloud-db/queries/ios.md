@@ -110,7 +110,7 @@ NSPredicate *p =
 let p = SKYRelationPredicate(relation: SKYRelation.following(), keyPath: "_owner")
 ```
 
-### References
+### Relational Queries
 
 This example shows how to query all notes (`Note` record) who has an `account` field reference to a user record. In this example, we will query all notes where `account` equals to the current user.
 
